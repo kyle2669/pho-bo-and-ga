@@ -1,18 +1,39 @@
-export type Category='Pho'|'Cold Noodles'|'Rice & Plates'|'Sides';
-export type MenuItem={id:string;name:string;category:Category;description:string;price:number;emoji:string;tag?:string};
-// DEMO PRICES ONLY. Replace with approved menu and prices before accepting live orders.
+export type Category='Pho'|'Cold Noodles'|'Platters'|'Appetizers'|'To Share'|'Drinks';
+export type MenuItem={id:string;name:string;category:Category;description:string;emoji:string;tag?:string;image?:string};
+// Menu names/descriptions transcribed from BO AND GA Flushing Uber Eats listing (Nov 2026).
+// Photos should be exported from merchant-owned originals before publication.
 export const menu:MenuItem[]=[
-{id:'signature',name:'Signature Pho',category:'Pho',description:'Our slow-simmered beef broth, brisket, rare beef, tripe & meatball.',price:18,emoji:'🍜',tag:'BEST SELLER'},
-{id:'spicy',name:'Spicy Intestines Pho',category:'Pho',description:'Bold lemongrass and annatto broth with tender intestines.',price:21,emoji:'🌶️',tag:'FAN FAVORITE'},
-{id:'belly',name:'Smoky Beef Belly Pho',category:'Pho',description:'Smoky sliced beef belly with our signature beef broth.',price:20,emoji:'🥩'},
-{id:'seaweed',name:'Seaweed Soup Pho',category:'Pho',description:'A comforting Korean twist with seaweed and beef.',price:19,emoji:'🌿',tag:'NEW'},
-{id:'perilla',name:'Perilla Cold Noodles',category:'Cold Noodles',description:'Chilled rice noodles with fragrant perilla.',price:18,emoji:'🥢',tag:'NEW'},
-{id:'coldspicy',name:'Spicy Cold Noodles',category:'Cold Noodles',description:'Refreshing cold noodles with a spicy kick.',price:18,emoji:'🌶️'},
-{id:'donkatsu',name:'Donkatsu',category:'Rice & Plates',description:'Golden, crispy pork cutlet.',price:19,emoji:'🍛'},
-{id:'pork',name:'Spicy Pork Over Rice',category:'Rice & Plates',description:'Tender spicy pork over warm rice.',price:18,emoji:'🍚'},
-{id:'summer',name:'Shrimp Summer Rolls',category:'Sides',description:'Fresh rice paper rolls with shrimp and herbs.',price:8,emoji:'🥬'},
-{id:'spring',name:'Spring Rolls',category:'Sides',description:'Crisp and golden, served with dipping sauce.',price:8,emoji:'🥟'}];
-export const sides=['Shrimp Summer Roll (1 pc)','Spring Rolls (2 pcs)','Sweet Pumpkin Croquettes (2 pcs)'] as const;
-export const drinks=['Iced Tea','Iced Coffee','Iced Lemonade'] as const;
-export type CartLine={id:string;quantity:number;setSide?:string;setDrink?:string};
-export function pricedLine(line:CartLine){const item=menu.find(m=>m.id===line.id);if(!item)throw Error('Invalid menu item');if(!Number.isInteger(line.quantity)||line.quantity<1||line.quantity>20)throw Error('Invalid quantity');const isSet=!!line.setSide||!!line.setDrink;if(isSet&&(item.category!=='Pho'||!sides.includes(line.setSide as any)||!drinks.includes(line.setDrink as any)))throw Error('Invalid set selection');return {item,quantity:line.quantity,unitCents:Math.round(item.price*100)+(isSet?800:0),isSet};}
+{id:'signature',name:'PH2. Signature',category:'Pho',description:'Brisket, rare steak, tripe, and meatballs.',emoji:'🍜',tag:'BEST SELLER',image:'https://tb-static.uber.com/prod/image-proc/processed_images/8fe30a96919c085ec49902731173ccec/5143f1e218c67c20fe5a4cd33d90b07b.jpeg'},
+{id:'spicy',name:'PH1. Spicy Intestines',category:'Pho',description:'Spicy intestines with chewy tripe.',emoji:'🌶️',tag:'FAN FAVORITE'},
+{id:'brisket',name:'PH3. Brisket',category:'Pho',description:'Beef brisket pho.',emoji:'🍜'},
+{id:'belly',name:'PH4. Smoky Beef Belly',category:'Pho',description:'Charred and smoky beef belly.',emoji:'🥩'},
+{id:'chicken',name:'PH5. Chicken',category:'Pho',description:'Hand-pulled chicken.',emoji:'🍜'},
+{id:'seafood',name:'PH6. Seafood',category:'Pho',description:'Chicken broth, shrimp, baby octopus, and fish ball.',emoji:'🍤'},
+{id:'galbi',name:'PH8. Galbi',category:'Pho',description:'Braised beef ribs.',emoji:'🥩'},
+{id:'meatlovers',name:'PHS. Meat Lovers',category:'Pho',description:'Galbi, brisket, rare steak, tripe and meatballs.',emoji:'🍜'},
+{id:'rawbeef',name:'PH7. Raw Beef',category:'Pho',description:'Thinly sliced raw beef.',emoji:'🍜'},
+{id:'nomeat',name:'PH0. No Meat (Chicken Broth)',category:'Pho',description:'Chicken broth without protein.',emoji:'🍜'},
+{id:'seaweed',name:'Seaweed Pho',category:'Pho',description:'Korean-inspired seaweed pho.',emoji:'🌿',tag:'NEW'},
+{id:'spicycold',name:'Spicy Cold Noodles',category:'Cold Noodles',description:'Chilled brisket, sesame oil, and spicy lemongrass sauce.',emoji:'🌶️',tag:'NEW'},
+{id:'perilla',name:'Perilla Cold Noodles',category:'Cold Noodles',description:'Beef belly, perilla oil, and garlic soy sauce.',emoji:'🥢',tag:'NEW'},
+{id:'pork-rice',name:'R1. Pork Chop Rice Platter',category:'Platters',description:'Pork chops with rice, soup and vegetables.',emoji:'🍚'},
+{id:'belly-rice',name:'R2. Smoky Beef Belly Rice Platter',category:'Platters',description:'Smoky beef belly with rice, soup and vegetables.',emoji:'🍚'},
+{id:'galbi-rice',name:'R3. Galbi Rice Platter',category:'Platters',description:'Braised beef ribs with rice, soup and vegetables.',emoji:'🍚'},
+{id:'belly-buncha',name:'B2. Smoky Beef Belly Buncha Platter',category:'Platters',description:'Smoky beef belly with cold dipping noodles and nước chấm.',emoji:'🥢'},
+{id:'pork-buncha',name:'B1. Pork Chop Bun Cha Platter',category:'Platters',description:'Pork chops with cold dipping noodles and nước chấm.',emoji:'🥢'},
+{id:'galbi-buncha',name:'B3. Galbi Buncha Platter',category:'Platters',description:'Braised beef ribs with cold dipping noodles and nước chấm.',emoji:'🥢'},
+{id:'summer',name:'Shrimp Summer Rolls',category:'Appetizers',description:'Fresh shrimp and crisp vegetables with peanut sauce.',emoji:'🥬'},
+{id:'spring',name:'Fried Veggie Spring Rolls',category:'Appetizers',description:'Served with fish sauce.',emoji:'🥟'},
+{id:'mushroom',name:'Beef Mushroom Rolls',category:'Appetizers',description:'Four soy-glazed beef mushroom rolls.',emoji:'🥩'},
+{id:'pumpkin',name:'Sweet Pumpkin Croquettes',category:'Appetizers',description:'Crunchy sweet pumpkin croquettes.',emoji:'🎃'},
+{id:'porkchop',name:'Pork Chop',category:'Appetizers',description:'Juicy pork chops.',emoji:'🥩'},
+{id:'friedchicken',name:'Korean Fried Chicken',category:'Appetizers',description:'Sweet and spicy garlic sauce.',emoji:'🍗'},
+{id:'fries',name:'French Fries',category:'Appetizers',description:'Served with spicy mayo.',emoji:'🍟'},
+{id:'calamari',name:'Fried Calamari',category:'Appetizers',description:'Served with nước chấm.',emoji:'🦑'},
+{id:'galbi-side',name:'Galbi (Braised Beef Rib)',category:'Appetizers',description:'Braised beef rib.',emoji:'🥩'},
+{id:'mandu',name:'Fried Pork Mandu',category:'Appetizers',description:'Six fried pork dumplings.',emoji:'🥟'},
+{id:'brisket-share',name:'Beef Brisket',category:'To Share',description:'Slow-cooked beef brisket and chewy tripe.',emoji:'🥩'},
+{id:'belly-share',name:'Stir-Fried Beef Belly',category:'To Share',description:'Smoky beef belly and bean sprouts in soy sauce.',emoji:'🥩'},
+{id:'intestine-share',name:'Stir-fried Spicy Intestines',category:'To Share',description:'Spicy stir-fried intestines.',emoji:'🌶️'},
+...['Coca-Cola','D. Coke','Sprite','Fanta Orange','Ginger Ale','Brisk','Seltzer','Bottled Water'].map((name,i)=>({id:'drink-'+i,name,category:'Drinks' as Category,description:'',emoji:'🥤'}))
+];
